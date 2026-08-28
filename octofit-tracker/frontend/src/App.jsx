@@ -1,122 +1,54 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
+import { NavLink, Route, Routes, useLocation } from 'react-router-dom'
+import Activities from './components/Activities.jsx'
+import Leaderboard from './components/Leaderboard.jsx'
+import Teams from './components/Teams.jsx'
+import Users from './components/Users.jsx'
+import Workouts from './components/Workouts.jsx'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+    <div className="app-shell">
+      <aside className="sidebar">
+        <div className="brand"><span className="brand-mark">O</span><span>OctoFit</span></div>
+        <p className="eyebrow">TRAINING HQ</p>
+        <nav className="nav-list" aria-label="Primary navigation">
+          <NavLink to="/" end>Overview</NavLink>
+          <NavLink to="/activities">Activities</NavLink>
+          <NavLink to="/leaderboard">Leaderboard</NavLink>
+          <NavLink to="/teams">Teams</NavLink>
+          <NavLink to="/users">Athletes</NavLink>
+          <NavLink to="/workouts">Workouts</NavLink>
+        </nav>
+        <div className="sidebar-note"><strong>Keep moving.</strong><span>Small sessions become big progress.</span></div>
+      </aside>
+      <main className="content">
+        <Header />
+        <Routes>
+          <Route path="/" element={<Overview />} />
+          <Route path="/activities" element={<Activities />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/teams" element={<Teams />} />
+          <Route path="/users" element={<Users />} />
+          <Route path="/workouts" element={<Workouts />} />
+        </Routes>
+      </main>
+    </div>
   )
+}
+
+function Header() {
+  const location = useLocation()
+  const title = location.pathname === '/' ? 'Overview' : location.pathname.slice(1).replace('-', ' ')
+  return <header className="topbar"><div><p className="eyebrow">THURSDAY, AUGUST 28</p><h1>{title}</h1></div><div className="status"><span className="status-dot" />Live training data</div></header>
+}
+
+function Overview() {
+  return <div className="overview"><section className="hero-banner"><div><p className="eyebrow">YOUR WEEK IN MOTION</p><h2>Make today<br /><em>count.</em></h2><p>Track the work, celebrate the wins, and keep your team moving forward.</p><NavLink className="primary-link" to="/activities">View activity <span aria-hidden="true">→</span></NavLink></div><div className="hero-number">04<span>active sessions</span></div></section><div className="metrics"><Metric label="Training minutes" value="170" detail="+18% this week" /><Metric label="Team points" value="2,735" detail="Across 2 teams" /><Metric label="Current rank" value="#01" detail="Keep the lead" /></div><div className="overview-grid"><Activities /><Leaderboard /></div></div>
+}
+
+function Metric({ label, value, detail }) {
+  return <article className="metric"><span>{label}</span><strong>{value}</strong><small>{detail}</small></article>
 }
 
 export default App
