@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { fetchCollection } from '../api.js'
 
+
+
 export default function Activities() {
   const [activities, setActivities] = useState([])
   const [error, setError] = useState('')
