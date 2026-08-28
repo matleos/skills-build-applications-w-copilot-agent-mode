@@ -47,6 +47,8 @@ const workoutSchema = new Schema(
   { timestamps: true },
 );
 
+
+
 export const User = mongoose.models.User || mongoose.model('User', userSchema);
 export const Team = mongoose.models.Team || mongoose.model('Team', teamSchema);
 export const Activity = mongoose.models.Activity || mongoose.model('Activity', activitySchema);
