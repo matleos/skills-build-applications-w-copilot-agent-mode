@@ -24,11 +24,17 @@ app.use((_request, response, next) => {
 });
 
 app.get('/', (_request, response) => {
-  response.json({
-    name: 'OctoFit Tracker API',
-    health: '/api/health',
-    resources: ['/api/users', '/api/teams', '/api/activities', '/api/leaderboard', '/api/workouts'],
-  });
+response.json({
+name: 'OctoFit Tracker API',
+health: `${apiBaseUrl}/api/health`,
+resources: [
+`${apiBaseUrl}/api/users`,
+`${apiBaseUrl}/api/teams`,
+`${apiBaseUrl}/api/activities`,
+`${apiBaseUrl}/api/leaderboard`,
+`${apiBaseUrl}/api/workouts`,
+],
+});
 });
 
 app.get('/api/health', (_request, response) => {
